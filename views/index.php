@@ -6,12 +6,26 @@
     </head>
     <body>
         <?php 
-        $showArray = $data; 
-        
+        $showArray = $data;
         echo "使用者:" . $showArray[0]['userid'] . "<br>";
         echo "金錢餘額:" . $showArray[0]['money'];
-        
         ?>
+        
+        <form action="index" method="post" class="form" role="form">
+            <input type="number" name="money" min="0"></br>
+            <label class="radio-inline">
+                <input type="radio" name="addorcut" value="1" />
+                出款
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="addorcut" value="0" />
+                入款
+            </label>
+            <input type="hidden" name="userid" value="<?php echo $showArray[0]['userid']; ?>">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">送出</button>
+        </form>
+        
+        <a href="">帳目明細</a>
         
     </body>
 </html>
