@@ -1,15 +1,14 @@
 <?PHP
 
-class Config {
-    
+class Config
+{
     public $projectName;
     public $root;
     public $imgRoot;
     public $cssRoot;
     public $jsRoot;
-    
     public $db;
-    
+
     function __construct()
     {
         $this->db['host']       = 'localhost';

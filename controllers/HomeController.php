@@ -1,52 +1,51 @@
 <?php
 
-class HomeController extends Controller {
-    
+class HomeController extends Controller
+{
     function index()
     {
         $this->model("CRUD");
-        $crud = new CRUD();
-        
+        $crud = new Crud();
+
         $row = $crud->getUserData();
-        
-        $orimoney = $row[0]['money'];
-        
-        if(isset($_POST['money'])) {
-            $userid = $_POST['userid'];
-            $addorcut = $_POST['addorcut'];
-            $postmoney = $_POST['money'];
-            
-            if($orimoney >= 0 and $addorcut == 0) {
-                $newcount = $orimoney + $postmoney;
-                $insert = $crud->insertDetails($userid,$addorcut,$postmoney,$newcount);
-                $compute = $crud->compute($userid,$newcount);
-                $newrow = $crud->getUserData();
-                $this->view("index",$newrow);
+
+        $oriMoney = $row[0]['money'];
+
+        if (isset($_POST['money'])) {
+            $userId = $_POST['userid'];
+            $status = $_POST['addorcut'];
+            $postMoney = $_POST['money'];
+
+            if ($oriMoney >= 0 and $status == 0) {
+                $newCount = $oriMoney + $postMoney;
+                $insert = $crud->insertDetails($userId, $status, $postMoney, $newCount);
+                $compute = $crud->compute($userId, $newCount);
+                $newRow = $crud->getUserData();
                 
-            } else if($orimoney >= $postmoney and $addorcut == 1) {
-                $newcount = $orimoney - $postmoney;
-                $insert = $crud->insertDetails($userid,$addorcut,$postmoney,$newcount);
-                $compute = $crud->compute($userid,$newcount);
-                $newrow = $crud->getUserData();
-                $this->view("index",$newrow);
+                $this->view("index",$newRow);
+            } else if ($oriMoney >= $postMoney and $status == 1) {
+                $newCount = $oriMoney - $postMoney;
+                $insert = $crud->insertDetails($userId, $status, $postMoney, $newCount);
+                $compute = $crud->compute($userId, $newCount);
+                $newRow = $crud->getUserData();
+                
+                $this->view("index", $newRow);
             }
         }
-        $this->view("index",$row);
+        $this->view("index", $row);
     }
-    
+
     function show()
     {
         $this->model("CRUD");
         $crud = new CRUD();
-        
+
         $showArray = Array();
-        
+
         $row = $crud->getDetails();
         $showArray["num"] = count($row);
         $showArray["row"] = $row;
-        
-        $this->view("show",$showArray);
+
+        $this->view("show", $showArray);
     }
 }
-
-
