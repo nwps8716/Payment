@@ -9,7 +9,8 @@ class Config {
     
     public $db;
     
-    function __construct(){
+    function __construct()
+    {
         $this->db['host']       = 'localhost';
         $this->db['port']       = '3306';
         $this->db['username']   = 'root';
