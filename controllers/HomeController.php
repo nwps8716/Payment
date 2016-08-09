@@ -23,7 +23,7 @@ class HomeController extends Controller
                 $newRow = $crud->getUserData();
                 
                 $this->view("index",$newRow);
-            } else if ($oriMoney >= $postMoney and $status == 1) {
+            } elseif ($oriMoney >= $postMoney and $status == 1) {
                 $newCount = $oriMoney - $postMoney;
                 $insert = $crud->insertDetails($userId, $status, $postMoney, $newCount);
                 $compute = $crud->compute($userId, $newCount);

@@ -20,7 +20,7 @@
 
         <table class="table table-bordered">
             <tr class="info">
-                <td>使用者帳戶</td>
+                <td>帳戶餘額</td>
                 <td>交易方式</td>
                 <td>交易金額</td>
             </tr>
@@ -29,7 +29,7 @@
                 <td><?php echo $showArray["row"][$i]["balance"]; ?></td> 
                 <td>
                     <?php 
-                    if ($showArray["row"][$i]["AddorCut"] == 0) {
+                    if ($showArray["row"][$i]["addorcut"] == 0) {
                         echo "入款";
                     } else {
                         echo "出款";

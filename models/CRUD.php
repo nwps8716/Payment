@@ -18,7 +18,7 @@ class Crud
         $stmt->execute();
         $result = $stmt->fetchAll();
         $this->dbpdo->closeConnection();
-	    
+
 	    return $result;
     }
 
@@ -41,8 +41,7 @@ class Crud
 
     public function compute($userId, $newCount)
     {
-
-        try{
+        try {
             $this->dbcon->beginTransaction();
 
             $sql = "SELECT `money` FROM `userdata` WHERE `userid` = :userId FOR UPDATE";
@@ -55,7 +54,7 @@ class Crud
 
             // sleep(5); 
             if ($result['money'] >= 0) {
-                $sql = "UPDATE `userdata` SET `money` = :money WHERE `userid`= :userId";
+                $sql = "UPDATE `userdata` SET `money` = :money WHERE `userid` = :userId";
                 $stmt = $this->dbcon->prepare($sql);
 
                 $stmt->bindValue(':money', $newCount);
@@ -69,7 +68,7 @@ class Crud
     	    if ($result) {
     	        return $result;
 	        } else {
-	            throw new Exception("你出錯了!");
+                throw new Exception("你出錯了!");
 	        }
 
         } catch (Exception $error) {
