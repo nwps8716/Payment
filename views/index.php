@@ -14,11 +14,11 @@
             <input type="number" name="money" min="0"></br>
             <label class="radio-inline">
                 <input type="radio" name="addorcut" value="1" />
-                出款
+                取款
             </label>
             <label class="radio-inline">
                 <input type="radio" name="addorcut" value="0" />
-                入款
+                存款
             </label>
             <input type="hidden" name="userid" value="<?php echo $showArray[0]['userid']; ?>">
             <button class="btn btn-lg btn-primary btn-block" type="submit">送出</button>

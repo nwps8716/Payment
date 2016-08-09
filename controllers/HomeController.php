@@ -4,8 +4,8 @@ class HomeController extends Controller
 {
     function index()
     {
-        $this->model("CRUD");
-        $crud = new Crud();
+        $this->model("Bank");
+        $crud = new Bank();
 
         $row = $crud->getUserData();
 
@@ -28,7 +28,7 @@ class HomeController extends Controller
                 $insert = $crud->insertDetails($userId, $status, $postMoney, $newCount);
                 $compute = $crud->compute($userId, $newCount);
                 $newRow = $crud->getUserData();
-                
+
                 $this->view("index", $newRow);
             }
         }
@@ -37,10 +37,10 @@ class HomeController extends Controller
 
     function show()
     {
-        $this->model("CRUD");
-        $crud = new CRUD();
+        $this->model("Bank");
+        $crud = new Bank();
 
-        $showArray = Array();
+        $showArray = array();
 
         $row = $crud->getDetails();
         $showArray["num"] = count($row);

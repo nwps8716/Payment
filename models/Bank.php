@@ -1,6 +1,6 @@
 <?php
 
-class Crud 
+class Bank
 {
     public $dbcon;
     public $dbpdo;
@@ -52,7 +52,6 @@ class Crud
             $stmt->execute();
             $result = $stmt->fetch();
 
-            // sleep(5); 
             if ($result['money'] >= 0) {
                 $sql = "UPDATE `userdata` SET `money` = :money WHERE `userid` = :userId";
                 $stmt = $this->dbcon->prepare($sql);

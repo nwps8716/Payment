@@ -26,15 +26,15 @@ class App
             exit;
         }
 
-        unset($url[0]); 
+        unset($url[0]);
         unset($url[1]);
-        $params = $url ? array_values($url) : Array();
-        call_user_func_array(Array($controller, $methodName), $params);
+        $params = $url ? array_values($url) : array();
+        call_user_func_array(array($controller, $methodName), $params);
     }
 
     //抓取輸入網址名稱為$url
-    public function parseUrl() 
-    {                
+    public function parseUrl()
+    {
         if (isset($_GET["url"])) {
             $url = rtrim($_GET["url"], "/");
             $url = explode("/", $url);

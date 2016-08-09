@@ -14,7 +14,7 @@
     </style>
 
     <body>
-        <?php 
+        <?php
         $showArray = $data;
         ?>
 
@@ -30,9 +30,9 @@
                 <td>
                     <?php 
                     if ($showArray["row"][$i]["addorcut"] == 0) {
-                        echo "入款";
+                        echo "存款";
                     } else {
-                        echo "出款";
+                        echo "取款";
                     }
                     ?>
                 </td> 
