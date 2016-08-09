@@ -1,4 +1,5 @@
 <?PHP
+
 class Config {
     
     public $projectName;
@@ -18,4 +19,3 @@ class Config {
         $this->db['dbname']     = 'payment';
     }
 }
-?>

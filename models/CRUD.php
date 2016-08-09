@@ -1,5 +1,7 @@
 <?php
-class CRUD {
+
+class CRUD 
+{
     
     public $dbcon;
     public $dbpdo;
@@ -87,4 +89,3 @@ class CRUD {
 	    return $result;
     }
 }
-?>

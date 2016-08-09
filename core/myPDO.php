@@ -1,4 +1,5 @@
 <?PHP
+
 require_once "Config.php";
 
 class myPDO{
@@ -25,4 +26,4 @@ class myPDO{
           self::$connection = NULL;
      }
 }
-?>
+
