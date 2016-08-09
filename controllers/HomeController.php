@@ -5,16 +5,30 @@ class HomeController extends Controller {
         $this->model("CRUD");
         $crud = new CRUD();
         
-        $showArray = Array();
-        
         $row = $crud->getuserdata();
         
-        if(isset($_POST['money'])){
+        $orimoney = $row[0]['money'];
+        
+        if (isset($_POST['money'])){
             $userid = $_POST['userid'];
-            $money = $_POST['money'];
             $addorcut = $_POST['addorcut'];
+            $postmoney = $_POST['money'];
             
-            $compute = $crud->insertdetails($userid,$addorcut,$money);
+            $insert = $crud->insertdetails($userid,$addorcut,$postmoney);
+            
+            if ($addorcut == 0){
+                $newcount = $orimoney + $postmoney;
+                $compute = $crud->compute($userid,$newcount);
+                $newrow = $crud->getuserdata();
+                $this->view("index",$newrow);
+                
+            } else if ($addorcut == 1){
+                $newcount = $orimoney - $postmoney;
+                $compute = $crud->compute($userid,$newcount);
+                $newrow = $crud->getuserdata();
+                $this->view("index",$newrow);
+            }
+            
         }
         
         $this->view("index",$row);
