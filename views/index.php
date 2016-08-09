@@ -21,9 +21,9 @@
                 存款
             </label>
             <input type="hidden" name="userid" value="<?php echo $showArray[0]['userid']; ?>">
+            <input type="hidden" name="orimoney" value="<?php echo $showArray[0]['money']; ?>">
             <button class="btn btn-lg btn-primary btn-block" type="submit">送出</button>
         </form>
-
-        <a href="/Payment/Home/show">帳目明細</a>
+        <?php echo '<a href="/Payment/Home/show?userid=' . $showArray[0]['userid'] . '";>帳目明細</a>'; ?>
     </body>
 </html>

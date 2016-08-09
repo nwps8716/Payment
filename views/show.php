@@ -24,7 +24,7 @@
                 <td>交易方式</td>
                 <td>交易金額</td>
             </tr>
-            <?php for ($i = 0 ; $i < $showArray["num"] ; $i++) { ?>
+            <?php for ($i = 0 ; $i < $showArray["num"] ; $i++) : ?>
             <tr>
                 <td><?php echo $showArray["row"][$i]["balance"]; ?></td> 
                 <td>
@@ -38,7 +38,7 @@
                 </td> 
                 <td><?php echo $showArray["row"][$i]["money"]; ?></td>
             </tr>
-            <?php } ?>
+            <?php endfor; ?>
         </table>
     </body>
 </html>

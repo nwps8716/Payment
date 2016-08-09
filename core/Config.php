@@ -9,7 +9,7 @@ class Config
     public $jsRoot;
     public $db;
 
-    function __construct()
+    public function __construct()
     {
         $this->db['host']       = 'localhost';
         $this->db['port']       = '3306';

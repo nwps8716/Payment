@@ -8,7 +8,7 @@ class App
 
         $url = $this->parseUrl();
         if (is_null($url)) {
-            header("Location:Home/index");
+            header("Location:Home/signIn");
             exit;
         }
 

@@ -5,21 +5,24 @@ class Bank
     public $dbcon;
     public $dbpdo;
 
-    function __construct()
+    public function __construct()
     {
         $this->dbpdo = new MyPdo();
         $this->dbcon = $this->dbpdo->getConnection();
     }
 
-    public function getUserData()
+    public function getUserData($userId)
     {
-        $sql = "SELECT * FROM `userdata` WHERE `ID` = '1'";
+        $sql = "SELECT * FROM `userdata` WHERE `userid` = :userId";
         $stmt = $this->dbcon->prepare($sql);
+
+        $stmt->bindValue(':userId', $userId);
+
         $stmt->execute();
         $result = $stmt->fetchAll();
         $this->dbpdo->closeConnection();
 
-	    return $result;
+        return $result;
     }
 
     public function insertDetails($userId, $status, $postMoney, $balance)
@@ -76,10 +79,13 @@ class Bank
         }
     }
 
-    public function getDetails()
+    public function getDetails($userId)
     {
-        $sql = "SELECT * FROM `details` WHERE `userid` = '101'";
+        $sql = "SELECT * FROM `details` WHERE `userid` = :userId";
         $stmt = $this->dbcon->prepare($sql);
+
+        $stmt->bindValue(':userId', $userId);
+
         $stmt->execute();
         $result = $stmt->fetchAll();
         $this->dbpdo->closeConnection();

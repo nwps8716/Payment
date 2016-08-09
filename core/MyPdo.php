@@ -6,7 +6,7 @@ class MyPdo
 {
      private static $connection = NULL;
 
-     function __construct() 
+     public function __construct() 
      {
           $config = new Config();
           $pdo = new PDO("mysql:host=" . $config->db['host'] . ":" . $config->db['port'] 
@@ -18,12 +18,12 @@ class MyPdo
           $pdo = null;
      }
 
-     function getConnection()
+     public function getConnection()
      {
           return self::$connection;
      }
 
-     function closeConnection()
+     public function closeConnection()
      {
           self::$connection = NULL;
      }
