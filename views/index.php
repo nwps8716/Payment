@@ -25,7 +25,7 @@
             <button class="btn btn-lg btn-primary btn-block" type="submit">送出</button>
         </form>
         
-        <a href="">帳目明細</a>
+        <a href="/Payment/Home/show">帳目明細</a>
         
     </body>
 </html>
