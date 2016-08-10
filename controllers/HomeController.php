@@ -2,54 +2,56 @@
 
 class HomeController extends Controller
 {
-    public function selfpage()
+    public function insertMoney()
     {
-        $this->model("Bank");
-        $crud = new Bank();
+        $this->model('Bank');
+        $modelsBank = new Bank();
 
         if (isset($_POST['money'])) {
             $userId = $_POST['userId'];
             $status = $_POST['addOrCut'];
             $postMoney = $_POST['money'];
-            $compute = $crud->compute($userId, $postMoney, $status);
+            $compute = $modelsBank->compute($userId, $postMoney, $status);
 
             if (isset($compute)) {
                 $newCount = $compute[0]['money'];
-                $insert = $crud->insertDetails($userId, $status, $postMoney, $newCount);
+                $insert = $modelsBank->insertDetails($userId, $status, $postMoney, $newCount);
             }
-            $newRow = $crud->getUserData($userId);
+            $newRow = $modelsBank->getUserData($userId);
 
-            $this->view("selfpage", $newRow);
+            $this->view('insertMoney', $newRow);
         }
-        $this->view("selfpage");
+
+        $this->view('insertMoney');
     }
 
-    public function show()
+    public function showDetails()
     {
-        $this->model("Bank");
-        $crud = new Bank();
+        $this->model('Bank');
+        $modelsBank = new Bank();
 
         $userId = $_GET['userId'];
         $showArray = [];
 
-        $row = $crud->getDetails($userId);
-        $showArray["num"] = count($row);
-        $showArray["row"] = $row;
+        $row = $modelsBank->getDetails($userId);
+        $showArray['num'] = count($row);
+        $showArray['row'] = $row;
 
-        $this->view("show", $showArray);
+        $this->view('showDetails', $showArray);
     }
 
-    public function index()
+    public function signIn()
     {
-        $this->model("Bank");
-        $crud = new Bank();
+        $this->model('Bank');
+        $modelsBank = new Bank();
 
         if (isset($_POST['userId'])) {
             $userId = $_POST['userId'];
-            $row = $crud->getUserData($userId);
-            $this->view("selfpage", $row);
+            $row = $modelsBank->getUserData($userId);
+            $this->view('insertMoney', $row);
             exit;
         }
-        $this->view("index");
+
+        $this->view('signIn');
     }
 }

@@ -5,7 +5,7 @@
         <title>Payment signin</title>
     </head>
     <body>
-        <form action="index" method="post" class="form" role="form">
+        <form action="signIn" method="post" class="form" role="form">
             <span>填寫使用者ID:</span></br>
             <input type="text" name="userId" ></br>
             <button type="submit">登入</button>

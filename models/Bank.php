@@ -24,6 +24,7 @@ class Bank
         return $result;
     }
 
+    //將update完的金額資料存入資料表
     public function insertDetails($userId, $status, $postMoney, $balance)
     {
         $sql = "INSERT INTO `details` (`userid`, `addorcut`, `money`, `balance`)
@@ -40,52 +41,7 @@ class Bank
     	return $result;
     }
 
-    public function compute($userId, $postMoney, $status)
-    {
-        try {
-            $this->dbcon->beginTransaction();
-
-            $sql = "SELECT `money` FROM `userdata` WHERE `userid` = :userId FOR UPDATE";
-            $stmt = $this->dbcon->prepare($sql);
-            $stmt->bindValue(':userId', $userId);
-            $stmt->execute();
-
-            $result = $stmt->fetchAll();
-            $newMoney = $result[0]['money'];
-
-            if ($status == 0) {
-                $sql = "UPDATE `userdata` SET `money` = `money` + :money WHERE `userid` = :userId";
-                $stmt = $this->dbcon->prepare($sql);
-                $stmt->bindValue(':money', $postMoney);
-                $stmt->bindValue(':userId', $userId);
-
-                $result = $stmt->execute();
-            } elseif ($newMoney >= $postMoney and $status == 1) {
-                $sql = "UPDATE `userdata` SET `money` = `money` - :money WHERE `userid` = :userId";
-                $stmt = $this->dbcon->prepare($sql);
-                $stmt->bindValue(':money', $postMoney);
-                $stmt->bindValue(':userId', $userId);
-
-                $result = $stmt->execute();
-            }
-            $sql = "SELECT `money` FROM `userdata` WHERE `userid` = :userId";
-            $stmt = $this->dbcon->prepare($sql);
-            $stmt->bindValue(':userId', $userId);
-            $stmt->execute();
-
-            $result = $stmt->fetchAll();
-    	    $this->dbpdo->closeConnection();
-    	    $this->dbcon->commit();
-
-    	    return $result;
-
-        } catch (Exception $error) {
-            $this->dbcon->rollBack();
-            echo $error->getMessage();
-            exit();
-        }
-    }
-
+    //取出details of table的金額資料
     public function getDetails($userId)
     {
         $sql = "SELECT * FROM `details` WHERE `userid` = :userId";
@@ -97,5 +53,54 @@ class Bank
         $this->dbpdo->closeConnection();
 
 	    return $result;
+    }
+
+    public function compute($userId, $postMoney, $status)
+    {
+        try {
+            $this->dbcon->beginTransaction();
+
+            $sql = "SELECT `money` FROM `userdata` WHERE `userid` = :userId FOR UPDATE";
+            $stmt = $this->dbcon->prepare($sql);
+            $stmt->bindValue(':userId', $userId);
+            $stmt->execute();
+
+            $result = $stmt->fetchAll();
+            $balance = $result[0]['money'];
+
+            if ($balance < $postMoney and $status == 1) {
+                throw new Exception('餘額不足');
+            }
+
+            if ($status == 0) {
+                $sql = "UPDATE `userdata` SET `money` = `money` + :money WHERE `userid` = :userId";
+                $stmt = $this->dbcon->prepare($sql);
+                $stmt->bindValue(':money', $postMoney);
+                $stmt->bindValue(':userId', $userId);
+                $result = $stmt->execute();
+
+            } elseif ($balance >= $postMoney and $status == 1) {
+                $sql = "UPDATE `userdata` SET `money` = `money` - :money WHERE `userid` = :userId";
+                $stmt = $this->dbcon->prepare($sql);
+                $stmt->bindValue(':money', $postMoney);
+                $stmt->bindValue(':userId', $userId);
+                $result = $stmt->execute();
+            }
+
+            $sql = "SELECT `money` FROM `userdata` WHERE `userid` = :userId";
+            $stmt = $this->dbcon->prepare($sql);
+            $stmt->bindValue(':userId', $userId);
+            $stmt->execute();
+
+            $result = $stmt->fetchAll();
+    	    $this->dbpdo->closeConnection();
+    	    $this->dbcon->commit();
+
+            return $result;
+
+        } catch (Exception $error) {
+            $this->dbcon->rollBack();
+            echo $error->getMessage() . "<br>";
+        }
     }
 }

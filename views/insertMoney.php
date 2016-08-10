@@ -20,7 +20,7 @@
         echo "使用者:" . $showArray[0]['userid'] . "<br>";
         echo "金錢餘額:" . $showArray[0]['money'];
         ?>
-        <form action="selfpage" name="reg" method="post" class="form" role="form">
+        <form action="insertMoney" name="reg" method="post" class="form" role="form">
             <input type="number" name="money" min="0"></br>
             <label class="radio-inline">
                 <input type="radio" name="addOrCut" value="1" />
@@ -34,6 +34,6 @@
             <input type="hidden" name="oriMoney" value="<?php echo $showArray[0]['money']; ?>">
             <button onClick="check()" type="button">送出</button>
         </form>
-        <?php echo '<a href="/Payment/Home/show?userId=' . $showArray[0]['userid'] . '";>帳目明細</a>'; ?>
+        <?php echo '<a href="/Payment/Home/showDetails?userId=' . $showArray[0]['userid'] . '";>帳目明細</a>'; ?>
     </body>
 </html>

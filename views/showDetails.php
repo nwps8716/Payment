@@ -14,10 +14,7 @@
     </style>
 
     <body>
-        <?php
-        $showArray = $data;
-        ?>
-
+        <?php $showArray = $data; ?>
         <table class="table table-bordered">
             <tr class="info">
                 <td>帳戶餘額</td>
@@ -26,16 +23,16 @@
             </tr>
             <?php for ($i = 0 ; $i < $showArray["num"] ; $i++) : ?>
             <tr>
-                <td><?php echo $showArray["row"][$i]["balance"]; ?></td> 
+                <td><?php echo $showArray["row"][$i]["balance"]; ?></td>
                 <td>
-                    <?php 
+                    <?php
                     if ($showArray["row"][$i]["addorcut"] == 0) {
                         echo "存款";
                     } else {
                         echo "取款";
                     }
                     ?>
-                </td> 
+                </td>
                 <td><?php echo $showArray["row"][$i]["money"]; ?></td>
             </tr>
             <?php endfor; ?>
