@@ -49,10 +49,10 @@ class Bank
             $stmt = $this->dbcon->prepare($sql);
             $stmt->bindValue(':userId', $userId);
             $stmt->execute();
-            $result = $stmt->fetchAll();
 
+            $result = $stmt->fetchAll();
             $newMoney = $result[0]['money'];
-            sleep(3);
+
             if ($status == 0) {
                 $sql = "UPDATE `userdata` SET `money` = `money` + :money WHERE `userid` = :userId";
                 $stmt = $this->dbcon->prepare($sql);
