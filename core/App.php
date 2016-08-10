@@ -1,11 +1,10 @@
 <?php
 
-class App 
+class App
 {
     public function __construct()
     {
         session_start();
-
         $url = $this->parseUrl();
         if (is_null($url)) {
             header("Location:Home/signIn");
@@ -18,7 +17,6 @@ class App
         }
 
         require_once "controllers/$controllerName.php";
-
         $controller = new $controllerName;
         $methodName = isset($url[1]) ? $url[1] : "index";
         if (!method_exists($controller, $methodName)) {

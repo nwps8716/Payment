@@ -6,8 +6,9 @@
     </head>
     <body>
         <form action="signIn" method="post" class="form" role="form">
-            <input type="text" name="userid" ></br>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">送出</button>
+            <span>填寫使用者ID:</span></br>
+            <input type="text" name="userId" ></br>
+            <button type="submit">登入</button>
         </form>
     </body>
 </html>
