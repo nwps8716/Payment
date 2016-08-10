@@ -7,7 +7,7 @@ class App
         session_start();
         $url = $this->parseUrl();
         if (is_null($url)) {
-            header("Location:Home/signIn");
+            header("Location:Home/index");
             exit;
         }
 

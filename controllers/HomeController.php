@@ -2,7 +2,7 @@
 
 class HomeController extends Controller
 {
-    public function index()
+    public function selfpage()
     {
         $this->model("Bank");
         $crud = new Bank();
@@ -22,7 +22,7 @@ class HomeController extends Controller
                 }
                 $newRow = $crud->getUserData($userId);
 
-                $this->view("index", $newRow);
+                $this->view("selfpage", $newRow);
             } elseif ($oriMoney >= $postMoney and $status == 1) {
                 $newCount = $oriMoney - $postMoney;
                 $compute = $crud->compute($userId, $postMoney, $status);
@@ -32,10 +32,10 @@ class HomeController extends Controller
                 }
                 $newRow = $crud->getUserData($userId);
 
-                $this->view("index", $newRow);
+                $this->view("selfpage", $newRow);
             }
         }
-        $this->view("index");
+        $this->view("selfpage");
     }
 
     public function show()
@@ -53,7 +53,7 @@ class HomeController extends Controller
         $this->view("show", $showArray);
     }
 
-    public function signIn()
+    public function index()
     {
         $this->model("Bank");
         $crud = new Bank();
@@ -61,9 +61,9 @@ class HomeController extends Controller
         if (isset($_POST['userId'])) {
             $userId = $_POST['userId'];
             $row = $crud->getUserData($userId);
-            $this->view("index", $row);
+            $this->view("selfpage", $row);
             exit;
         }
-        $this->view("signin");
+        $this->view("index");
     }
 }
