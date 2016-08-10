@@ -49,9 +49,10 @@ class Bank
             $stmt = $this->dbcon->prepare($sql);
             $stmt->bindValue(':userId', $userId);
             $stmt->execute();
-
             $result = $stmt->fetchAll();
-            sleep(5);
+
+            $newMoney = $result[0]['money'];
+            sleep(3);
             if ($status == 0) {
                 $sql = "UPDATE `userdata` SET `money` = `money` + :money WHERE `userid` = :userId";
                 $stmt = $this->dbcon->prepare($sql);
@@ -59,7 +60,7 @@ class Bank
                 $stmt->bindValue(':userId', $userId);
 
                 $result = $stmt->execute();
-            } elseif ($status == 1) {
+            } elseif ($newMoney >= $postMoney and $status == 1) {
                 $sql = "UPDATE `userdata` SET `money` = `money` - :money WHERE `userid` = :userId";
                 $stmt = $this->dbcon->prepare($sql);
                 $stmt->bindValue(':money', $postMoney);
@@ -67,9 +68,16 @@ class Bank
 
                 $result = $stmt->execute();
             }
+            $sql = "SELECT `money` FROM `userdata` WHERE `userid` = :userId";
+            $stmt = $this->dbcon->prepare($sql);
+            $stmt->bindValue(':userId', $userId);
+            $stmt->execute();
+
+            $result = $stmt->fetchAll();
     	    $this->dbpdo->closeConnection();
     	    $this->dbcon->commit();
-    	    return TRUE;
+
+    	    return $result;
 
         } catch (Exception $error) {
             $this->dbcon->rollBack();

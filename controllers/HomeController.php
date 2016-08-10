@@ -11,29 +11,15 @@ class HomeController extends Controller
             $userId = $_POST['userId'];
             $status = $_POST['addOrCut'];
             $postMoney = $_POST['money'];
-            $oriMoney = $_POST['oriMoney'];
+            $compute = $crud->compute($userId, $postMoney, $status);
 
-            if ($oriMoney >= 0 and $status == 0) {
-                $newCount = $oriMoney + $postMoney;
-                $compute = $crud->compute($userId, $postMoney, $status);
-
-                if ($compute == TRUE) {
-                    $insert = $crud->insertDetails($userId, $status, $postMoney, $newCount);
-                }
-                $newRow = $crud->getUserData($userId);
-
-                $this->view("selfpage", $newRow);
-            } elseif ($oriMoney >= $postMoney and $status == 1) {
-                $newCount = $oriMoney - $postMoney;
-                $compute = $crud->compute($userId, $postMoney, $status);
-
-                if ($compute == TRUE) {
-                    $insert = $crud->insertDetails($userId, $status, $postMoney, $newCount);
-                }
-                $newRow = $crud->getUserData($userId);
-
-                $this->view("selfpage", $newRow);
+            if (isset($compute)) {
+                $newCount = $compute[0]['money'];
+                $insert = $crud->insertDetails($userId, $status, $postMoney, $newCount);
             }
+            $newRow = $crud->getUserData($userId);
+
+            $this->view("selfpage", $newRow);
         }
         $this->view("selfpage");
     }
