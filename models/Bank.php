@@ -51,7 +51,7 @@ class Bank
             $stmt->execute();
 
             $result = $stmt->fetchAll();
-
+            sleep(5);
             if ($status == 0) {
                 $sql = "UPDATE `userdata` SET `money` = `money` + :money WHERE `userid` = :userId";
                 $stmt = $this->dbcon->prepare($sql);
