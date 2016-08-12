@@ -26,7 +26,7 @@
                 <td><?php echo $showArray["row"][$i]["balance"]; ?></td>
                 <td>
                     <?php
-                    if ($showArray["row"][$i]["addorcut"] == 0) {
+                    if ($showArray["row"][$i]["addOrCut"] == 0) {
                         echo "存款";
                     } else {
                         echo "取款";

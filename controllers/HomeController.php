@@ -13,13 +13,7 @@ class HomeController extends Controller
             $postMoney = $_POST['money'];
             $compute = $modelsBank->compute($userId, $postMoney, $status);
 
-            if (isset($compute)) {
-                $newCount = $compute[0]['money'];
-                $insert = $modelsBank->insertDetails($userId, $status, $postMoney, $newCount);
-            }
-            $newRow = $modelsBank->getUserData($userId);
-
-            $this->view('insertMoney', $newRow);
+            $this->view('insertMoney', $compute);
         }
 
         $this->view('insertMoney');

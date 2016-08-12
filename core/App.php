@@ -6,19 +6,23 @@ class App
     {
         session_start();
         $url = $this->parseUrl();
+
         if (is_null($url)) {
             header("Location:Home/signIn");
             exit;
         }
 
         $controllerName = "{$url[0]}Controller";
+
         if (!file_exists("controllers/$controllerName.php")) {
+
             return;
         }
 
         require_once "controllers/$controllerName.php";
         $controller = new $controllerName;
         $methodName = isset($url[1]) ? $url[1] : "index";
+
         if (!method_exists($controller, $methodName)) {
             header("Location:Home/signIn");
             exit;
@@ -36,6 +40,7 @@ class App
         if (isset($_GET["url"])) {
             $url = rtrim($_GET["url"], "/");
             $url = explode("/", $url);
+
             return $url;
         }
     }

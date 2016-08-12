@@ -6,6 +6,7 @@ class Controller
     {
         require_once "core/MyPdo.php";
         require_once "models/$model.php";
+
         return new $model();
     }
 

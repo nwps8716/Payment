@@ -13,38 +13,24 @@ class Bank
 
     public function getUserData($userId)
     {
-        $sql = "SELECT * FROM `userdata` WHERE `userid` = :userId";
+        $sql = "SELECT * FROM `UserData` WHERE `userId` = :userId";
         $stmt = $this->dbcon->prepare($sql);
         $stmt->bindValue(':userId', $userId);
         $stmt->execute();
 
         $result = $stmt->fetchAll();
         $this->dbpdo->closeConnection();
+        $newData = [];
+	    $newData['userId'] = $userId;
+	    $newData['money'] = $result[0]['money'];
 
-        return $result;
-    }
-
-    //將update完的金額資料存入資料表
-    public function insertDetails($userId, $status, $postMoney, $balance)
-    {
-        $sql = "INSERT INTO `details` (`userid`, `addorcut`, `money`, `balance`)
-                VALUES (:userId, :status, :postMoney, :balance)";
-    	$stmt = $this->dbcon->prepare($sql);
-    	$stmt->bindValue(':userId', $userId);
-    	$stmt->bindValue(':status', $status);
-    	$stmt->bindValue(':postMoney', $postMoney);
-    	$stmt->bindValue(':balance', $balance);
-    	$result = $stmt->execute();
-
-    	$this->dbpdo->closeConnection();
-
-    	return $result;
+        return $newData;
     }
 
     //取出details of table的金額資料
     public function getDetails($userId)
     {
-        $sql = "SELECT * FROM `details` WHERE `userid` = :userId";
+        $sql = "SELECT * FROM `Details` WHERE `userId` = :userId";
         $stmt = $this->dbcon->prepare($sql);
         $stmt->bindValue(':userId', $userId);
         $stmt->execute();
@@ -60,7 +46,7 @@ class Bank
         try {
             $this->dbcon->beginTransaction();
 
-            $sql = "SELECT `money` FROM `userdata` WHERE `userid` = :userId FOR UPDATE";
+            $sql = "SELECT `money` FROM `UserData` WHERE `userId` = :userId FOR UPDATE";
             $stmt = $this->dbcon->prepare($sql);
             $stmt->bindValue(':userId', $userId);
             $stmt->execute();
@@ -70,33 +56,40 @@ class Bank
 
             if ($balance < $postMoney and $status == 1) {
                 throw new Exception('餘額不足');
+            } elseif ($status == 1){
+                $postMoney = -1 * $postMoney;
             }
 
-            if ($status == 0) {
-                $sql = "UPDATE `userdata` SET `money` = `money` + :money WHERE `userid` = :userId";
-                $stmt = $this->dbcon->prepare($sql);
-                $stmt->bindValue(':money', $postMoney);
-                $stmt->bindValue(':userId', $userId);
-                $result = $stmt->execute();
+            $sql = "UPDATE `UserData` SET `money` = `money` + :money WHERE `userId` = :userId";
+            $stmt = $this->dbcon->prepare($sql);
+            $stmt->bindValue(':money', $postMoney);
+            $stmt->bindValue(':userId', $userId);
+            $result = $stmt->execute();
 
-            } elseif ($balance >= $postMoney and $status == 1) {
-                $sql = "UPDATE `userdata` SET `money` = `money` - :money WHERE `userid` = :userId";
-                $stmt = $this->dbcon->prepare($sql);
-                $stmt->bindValue(':money', $postMoney);
-                $stmt->bindValue(':userId', $userId);
-                $result = $stmt->execute();
-            }
-
-            $sql = "SELECT `money` FROM `userdata` WHERE `userid` = :userId";
+            $sql = "SELECT `money` FROM `UserData` WHERE `userId` = :userId";
             $stmt = $this->dbcon->prepare($sql);
             $stmt->bindValue(':userId', $userId);
             $stmt->execute();
 
             $result = $stmt->fetchAll();
-    	    $this->dbpdo->closeConnection();
+    	    $balance = $result[0]['money'];
+    	    $newData = [];
+    	    $newData['userId'] = $userId;
+    	    $newData['money'] = $result[0]['money'];
+
+    	    $sql = "INSERT INTO `Details` (`userId`, `addOrCut`, `money`, `balance`)
+                VALUES (:userId, :status, :postMoney, :balance)";
+        	$stmt = $this->dbcon->prepare($sql);
+        	$stmt->bindValue(':userId', $userId);
+        	$stmt->bindValue(':status', $status);
+        	$stmt->bindValue(':postMoney', $postMoney);
+        	$stmt->bindValue(':balance', $balance);
+        	$result = $stmt->execute();
+
+        	$this->dbpdo->closeConnection();
     	    $this->dbcon->commit();
 
-            return $result;
+            return $newData;
 
         } catch (Exception $error) {
             $this->dbcon->rollBack();

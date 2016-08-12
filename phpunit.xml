@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true">
+    <testsuites>
+    目前 Lab_UnitTest 的目錄結構如
+        <testsuite name="Application Test Suite">
+            <directory>./myProject/Test/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
