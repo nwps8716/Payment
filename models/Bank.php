@@ -1,5 +1,7 @@
 <?php
 
+require_once "../Payment/core/MyPdo.php";
+
 class Bank
 {
     public $dbcon;
@@ -93,7 +95,8 @@ class Bank
 
         } catch (Exception $error) {
             $this->dbcon->rollBack();
-            echo $error->getMessage() . "<br>";
+
+            return $error->getMessage();
         }
     }
 }

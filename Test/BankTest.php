@@ -1,9 +1,26 @@
 <?php
-
-require_once "../Payment/myProject/Bank.php";
+require_once "../Payment/core/MyPdo.php";
+require_once "../Payment/models/Bank.php";
 
 class BankTest extends \PHPUnit_Framework_TestCase
 {
+
+    public $dbcon;
+    public $dbpdo;
+
+    public function __construct()
+    {
+        $this->dbpdo = new MyPdo();
+        $this->dbcon = $this->dbpdo->getConnection();
+    }
+
+    protected function setUp()
+    {
+        $sql = "UPDATE `UserData` SET `money` = 16500 WHERE `userId` = '101'";
+        $stmt = $this->dbcon->prepare($sql);
+        $stmt->execute();
+    }
+
     public function testGetUserData()
     {
         $userId = 101;
@@ -23,16 +40,11 @@ class BankTest extends \PHPUnit_Framework_TestCase
         $bank = new Bank();
         $result = $bank->getDetails($userId);
 
-        $this->assertCount(2, $result);
+        $this->assertCount(1, $result);
         $this->assertEquals(101, $result[0]['userId']);
         $this->assertEquals(0, $result[0]['addOrCut']);
         $this->assertEquals(200, $result[0]['money']);
         $this->assertEquals(16700, $result[0]['balance']);
-
-        $this->assertEquals(101, $result[1]['userId']);
-        $this->assertEquals(1, $result[1]['addOrCut']);
-        $this->assertEquals(-200, $result[1]['money']);
-        $this->assertEquals(16500, $result[1]['balance']);
     }
 
     public function testComputeAdd()
@@ -74,6 +86,14 @@ class BankTest extends \PHPUnit_Framework_TestCase
         $result = $bank->compute($userId, $postMoney, $status);
 
         $this->assertEquals($expectedResult, $result);
+    }
+
+    protected function tearDown()
+    {
+        $sql = "DELETE FROM `Details` WHERE `ID` != '103'";
+        $stmt = $this->dbcon->prepare($sql);
+        $stmt->execute();
+        $this->dbpdo->closeConnection();
     }
 }
 
